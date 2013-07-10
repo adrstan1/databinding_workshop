@@ -135,9 +135,20 @@ private void createUi(Composite parent) {
     firstNameLbl.setText("First name");
     firstNameTxt = new Text(this, SWT.SINGLE | SWT.LEAD | SWT.BORDER);
     firstNameTxt.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-    ...
+    ... and so on, for the rest of the controls ...
 }
 
 10. Add a new button on which, if pressed, we will display the model object in a message dialog 
 (by calling its toString() method).
 This will be used to check that the binding works correctly.
+
+Proceed like this:
+
+showBtn.addSelectionListener(new SelectionAdapter() {
+    @Override
+    public void widgetSelected(SelectionEvent e) {
+        MessageDialog.openInformation(Display.getDefault()
+                .getActiveShell(), "", customer.toString());
+    }
+
+});
