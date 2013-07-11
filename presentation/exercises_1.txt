@@ -1,0 +1,143 @@
+We will create a small RCP application which will demonstrate how to bind SWT controls to models.
+The models will consist of:
+A customer class having the following attributes: 
+    first_name (String)
+    last_name (String) 
+    age (int)
+    vip (boolean) 
+    address (Address)
+
+An Address class having the following attributes: 
+    country (String) 
+    city (String)
+    street (String) 
+    number (String) 
+    postalCode (String)
+
+1. Create an RCP application:
+- Select New->Plug-in Project
+- Name your project as DataBinding
+- Specify that a Rich Client Application needs to be created
+- Use the RCP application with a view template
+- Use the org.rosedu.databinding package
+
+Create the org.rosedu.databinding.ui package and move the View.java file in it.
+
+2. Verify that the project is working by right-clicking and selecting Run as -> Eclipse Application.
+
+3. Create the org.rosedu.databinding.models.pojo package.
+Create a POJO model class for the address, named PojoAddress, in the  org.rosedu.databinding.models.pojo package.
+Implement also the toString() method.
+
+4. Create a POJO model class for the customer, named PojoCustomer, in the org.rosedu.databinding.models.pojo package.
+Implement also the toString() method.
+
+5. Create a class, named SimplePojoCustomerDao, in the org.rosedu.databinding.models.pojo package, that will act as a provider for a PojoCustomer object.
+The class will have the following method implemented:
+
+public PojoCustomer getCustomer()
+in which a PojoCustomer object will be instantiated and returned.
+
+Implement the getCustomer() method.
+
+6. Create a new package, named org.rosedu.databinding.validators
+Inside, define a new class, named AgeValidator, that will act as a validator for the age property of PojoCustomer objects.
+Add the following checks:
+- The validated object shall be an object of Integer class
+- The age value should not be negative
+- The age value should be greater or equal to 18 (we do not accept under-age customers)
+- The age value should be less than 80
+
+7. The starting point in creating the user interface is to modify the createPartControl() method in the View.java file.
+Start by creating a tab folder SWT control:
+
+tabFolder = new TabFolder(parent, SWT.TOP);
+tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
+8. Create a new method in the View class:
+private void createPojoSampleTableItem() {
+    TabItem pojoTabItem = new TabItem(tabFolder, SWT.NONE);
+    pojoTabItem.setText("Pojo Model example");
+    SwtPojoModelExample pojoSample = new SwtPojoModelExample(tabFolder, SWT.NONE);
+    pojoTabItem.setControl(pojoSample);
+}
+This method should create a new tab item in the tab folder. In the newly created tab we will create our user interface.
+The SwtPojoModelExample class is responsible for creating the user interface.
+
+9. Create the SwtPojoModelExample class, in the org.rosedu.databinding.ui package
+
+public class SwtPojoModelExample extends Composite {
+	
+    // A text widget to be bound to the CustomerPojo firstName property.
+	private Text firstNameTxt;
+    // A text widget to be bound to the CustomerPojo lastName property.
+	private Text lastNameTxt;
+    // A text widget to be bound to the CustomerPojo ageTxt property.
+	private Text ageTxt;
+    // A text widget to be bound to the CustomerPojo address.cityTxt property.
+	private Text cityTxt;
+    // A text widget to be bound to the CustomerPojo vipBtn property.
+	private Button vipBtn;
+	
+    // The data binding.
+	private DataBindingContext bindingContext;
+	
+    // The domain model object.
+	private PojoCustomer customer;
+    
+    // The provider for the domain model object.
+	private SimplePojoCustomerDao customerDao;
+
+	public SwtPojoModelExample(Composite parent, int style) {
+		super(parent, style);
+		customerDao = new SimplePojoCustomerDao();
+		customer = customerDao.getCustomer();
+		createUi(parent);
+		attachListeners();
+		createDataBinding();
+	}
+		
+	private void createUi(Composite parent) {
+        // Add your code here
+	}
+	
+	private void attachListeners() {
+		this.addDisposeListener(new DisposeListener() {
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				if (bindingContext != null) {
+					bindingContext.dispose();
+				}
+			}
+		});
+	}
+	
+	private void createDataBinding() {
+		bindingContext = new DataBindingContext();
+		bindData();
+	}
+	
+	private void bindData() {
+        // Add your code here
+	}
+}
+
+Complete the code marked with: // Add your code here
+
+Use a grid layout with 2 columns for placing the UI widgets, as follows:
+
+private void createUi(Composite parent) {
+    this.setLayout(new GridLayout(2, false));
+
+    Label firstNameLbl = new Label(this, SWT.NONE);
+    firstNameLbl.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false,
+            false));
+    firstNameLbl.setText("First name");
+    firstNameTxt = new Text(this, SWT.SINGLE | SWT.LEAD | SWT.BORDER);
+    firstNameTxt.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+    ...
+}
+
+10. Add a new button on which, if pressed, we will display the model object in a message dialog 
+(by calling its toString() method).
+This will be used to check that the binding works correctly.
