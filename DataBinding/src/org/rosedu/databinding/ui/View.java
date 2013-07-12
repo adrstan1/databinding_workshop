@@ -21,6 +21,7 @@ public class View extends ViewPart {
 		tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		createPojoSampleTableItem();
 		createBeanSampleTableItem();
+		createEMFSampleTableItem();
 	}
 
 	/**
@@ -42,5 +43,12 @@ public class View extends ViewPart {
 		beanTabItem.setText("Bean Model example");
 		SwtBeanModelExample pojoSample = new SwtBeanModelExample(tabFolder, SWT.NONE);
 		beanTabItem.setControl(pojoSample);
+	}
+	
+	private void createEMFSampleTableItem() {
+		TabItem pojoTabItem = new TabItem(tabFolder, SWT.NONE);
+		pojoTabItem.setText("EMF Model example");
+		SwtEMFModelExample emfSample = new SwtEMFModelExample(tabFolder, SWT.NONE);
+		pojoTabItem.setControl(emfSample);
 	}
 }
