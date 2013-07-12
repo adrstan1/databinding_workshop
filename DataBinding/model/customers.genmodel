@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/DataBinding/src" modelPluginID="DataBinding" modelName="Customers"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false" operationReflection="true" importOrganizing="true">
+  <foreignModel>customers.ecore</foreignModel>
+  <genPackages prefix="Customers" basePackage="org.rosedu.databinding.models.emf"
+      disposableProviderFactory="true" ecorePackage="customers.ecore#/">
+    <genClasses ecoreClass="customers.ecore#//Customer">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute customers.ecore#//Customer/firstName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute customers.ecore#//Customer/lastName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute customers.ecore#//Customer/age"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute customers.ecore#//Customer/vip"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference customers.ecore#//Customer/address"/>
+    </genClasses>
+    <genClasses ecoreClass="customers.ecore#//Address">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute customers.ecore#//Address/country"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute customers.ecore#//Address/city"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute customers.ecore#//Address/street"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute customers.ecore#//Address/number"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute customers.ecore#//Address/postalCode"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

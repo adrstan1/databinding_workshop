@@ -1,0 +1,98 @@
+/////////////////////////////////////////////////////////////////////////////////
+// An example memory configuration for 8144
+//
+// Descrition: The words "//range", "reserved" & "reservedchar" are keywords 
+// for the parser. 
+// All start and end addresses are in 32-bit format (0x00000000).
+//
+//=============================================================================
+// //range - Allows you to specify a memory //range for reading and/or
+//		writing, and it's attributes
+//=============================================================================
+// syntax:
+//	//range 	 <loAddr> <hiAddr> <sizeCode> <access>
+// 	
+//=============================================================================
+// reserved - Allows you to specify a reserved //range of memory. Any
+//		   time the debugger tries to read from this location,
+//		   the memory buffer is filled with <reservedchar>. Any
+//		   time the debugger tries to write to any of the locations
+//		   in this //range, no write will take place.
+//=============================================================================
+// syntax:
+//	reserved <loAddr> <hiAddr>
+//	
+//=============================================================================
+// reservedchar - Allows you to specify the reserved character for the
+//			   memory configuration file.
+//=============================================================================
+// syntax:
+//	reservedchar <char>
+//
+///////////////////////////////////////////////////////////////////////////////
+
+target MSC8144
+
+reservedchar 0xCA
+
+// MSC8144 Memory Map as per Table 3-1
+range		0x00000000	0xFEFFFFFF	Any	ReadWrite	// Virtual External memory space
+reserved	0xFF000000	0xFFEFFDFF					// Reserved internal memory space
+
+range		0xFFEFFE00	0xFFEFFFFF	Any ReadWrite	// OCE (TODO)
+
+reserved	0xFFF00000	0xFFF003FF					// Reserved internal peripherals
+
+range		0xFFF00400	0xFFF0055F	4 ReadWrite	// EPIC
+reserved	0xFFF00560	0xFFF00563
+range		0xFFF00564	0xFFF00567	4 ReadWrite	// EPIC P_DE
+reserved	0xFFF00568	0xFFF007FF
+
+range		0xFFF00800	0xFFF00807	4	ReadWrite	// DC_CR0, DC_CR1
+range		0xFFF00808	0xFFF00809	2	ReadWrite	// DC_CR2
+reserved	0xFFF0080A	0xFFF0081F
+// range		0xFFF00820	0xFFF0082B	4	ReadOnly	// DC_LRM, DC_ET, DC_VD
+reserved	0xFFF00820	0xFFF0082B						// Disabled to prevent counter bias
+range		0xFFF0082C	0xFFF00833	4	ReadWrite	// DC_DBG_DATA, DC_DBG_ACS
+reserved	0xFFF00834	0xFFF00BFF
+
+range		0xFFF00C00	0xFFF00C07	4	ReadWrite	// IC_CR0, IC_CR1
+range		0xFFF00C08	0xFFF00C09	2	ReadWrite	// IC_CR2
+reserved	0xFFF00C0A	0xFFF00C1F
+// range		0xFFF00C20	0xFFF00C27	4	ReadOnly	// IC_LRM, IC_ET
+// range		0xFFF00C28	0xFFF00C29	2	ReadOnly	// IC_V
+reserved	0xFFF00C20	0xFFF00C29						// Disabled to prevent counter bias
+reserved	0xFFF00C2A	0xFFF00C2B
+range		0xFFF00C2C	0xFFF00C33	4	ReadWrite	// IC_DBG_DATA, IC_DBG_ACS
+reserved	0xFFF00C34	0xFFF00FFF
+
+reserved	0xFFF01000	0xFFF05FFF					// Reserved
+
+range		0xFFF06000	0xFFF06043	4	ReadWrite	// MMU #1 (TODO)
+reserved	0xFFF06044	0xFFF060FF
+range		0xFFF06100	0xFFF0610F	4	ReadWrite	// MMU Data Control (TODO)
+reserved	0xFFF06110	0xFFF06FFF
+range		0xFFF07000	0xFFF0700F	4	ReadWrite	// MMU Program Control (TODO)
+reserved	0xFFF07010	0xFFF07FFF
+range		0xFFF08000	0xFFF080B7	4	ReadWrite	// MMU PMATT (TODO)
+reserved	0xFFF080B8	0xFFF08FFF
+range		0xFFF09000	0xFFF09137	4	ReadWrite	// MMU DMATT (TODO)
+reserved	0xFFF09138	0xFFF09FFF
+
+range		0xFFF0A000	0xFFF0A013	4	ReadWrite	// DPU General Registers
+reserved	0xFFF0A014	0xFFF0A01F
+range		0xFFF0A020	0xFFF0A027	4	ReadWrite	// DPU Triad Control
+reserved	0xFFF0A028	0xFFF0A02B
+range		0xFFF0A02C	0xFFF0A043	4	ReadWrite	// DPU Counter A Control
+reserved	0xFFF0A044	0xFFF0A053
+range		0xFFF0A054	0xFFF0A06B	4	ReadWrite	// DPU Counter B Control
+reserved	0xFFF0A06C	0xFFF0A07B
+range		0xFFF0A07C	0xFFF0A093	4	ReadWrite	// DPU Trace Buffer
+reserved	0xFFF0A094	0xFFF0A2FF
+
+range		0xFFF0A300	0xFFF0A317	4	ReadWrite	// Timer
+reserved	0xFFF0A318	0xFFF0A3FF
+
+reserved	0xFFF0A400	0xFFF0FFFF
+
+range		0xFFF10000	0xFFFFFFFF	Any ReadWrite	// External Peripherals
